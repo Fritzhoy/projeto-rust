@@ -1,4 +1,4 @@
-//Tipo Transação
+//Mod Transação
 
 #[derive(Debug, Clone)]
 pub struct Transaction {
@@ -13,7 +13,6 @@ pub struct Transaction {
 }
 
 impl Transaction {
-    // Criando uma nova transação
     pub fn new(id: u64, from: &str, to: &str, value: f64) -> Self {
         Transaction {
             id: id,
@@ -23,6 +22,3 @@ impl Transaction {
         }
     }
 }
-
-//Transação funções
-//criar uma transação

@@ -1,3 +1,7 @@
+/* Mod Block
+** - Função para calculo da Hash do bloco com base nos dados contidos no bloco
+*/
+
 use crate::Transaction;
 use sha2::{Digest, Sha256};
 use std::time::{SystemTime, UNIX_EPOCH};

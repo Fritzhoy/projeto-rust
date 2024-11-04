@@ -1,5 +1,10 @@
 /* Mod Blockchain:
 ** - Instância uma nova blockchain e cria o bloco genesis
+**      - Bloco size: representa o tamanho de cada bloco
+**      - Pending_transaction: vetor que armazena de forma temporária 
+**          as transações, até a mineração de um novo bloco
+**      - transaction_counter: contador de transações na blockchain, utilizado
+**          no transaction id.
 ** - A cada 5 transações criadas um novo bloco é minerado
 ** - Checa a validade da cadeia de blocos
 **    - Checa o id do bloco
@@ -11,7 +16,7 @@
 
 use crate::{
     block::Block,
-    transaction::{self, Transaction},
+    transaction::{Transaction},
 };
 use std::{
     hash,
@@ -44,12 +49,16 @@ impl Blockchain {
         };
         //variável mutável que representa o vetor da cadeia de blocos
         let mut chain = vec![];
+
         //block_genesis como primeiro elemento da cadeia de blocos da nova blockchain
         chain.push(genesis_block.clone());
+
         //tamanho do bloco fixo, indica que cada bloco pode conter 5 transações
         let block_size = 5;
+
         //contador de transações
         let transaction_counter = 1;
+
         //Vetor que armazena temporariamente as transações
         let pending_transactions = vec![];
 
@@ -67,14 +76,14 @@ impl Blockchain {
         blockchain
     }
 
-    /*
-     **Ao completar 5 no pending_transactions, um novo bloco é minerado,
-     **sua hash é calculada e o bloco e adicionado a cadeia de blocos
-     */
+    /* Ao completar 5 no pending_transactions, um novo bloco é minerado,
+     ** sua hash é calculada e o bloco e adicionado a cadeia de blocos
+     * */
 
     pub fn mine_block(&mut self) {
         let id = self.chain.len() as u64;
-        /*Pega a hash do último bloco da cadeia é copia seu valor para o **previous_hash do novo blo criado*/
+        /* Pega a hash do último bloco da cadeia é copia seu valor para o **previous_hash do  ** novo blo criado
+         */
         let block_previous_hash = self.chain.last().unwrap().hash.clone();
 
         //Copia o vetor das pending_transactions, para o vetor transações do bloco
@@ -89,7 +98,7 @@ impl Blockchain {
 
         println!("Novo bloco adicionado a cadeia \n: {:?}\n", new_block);
     }
-    /*Função que instancia uma nova transação */
+    // Função que instancia uma nova transação
 
     pub fn create_transaction(&mut self, from: &str, to: &str, value: f64) {
         let transaction = Transaction {
@@ -107,9 +116,9 @@ impl Blockchain {
         self.transaction_counter += 1;
     }
 
-    /*Checa a validade do bloco:
-     **Checa se previous_hash e a hash do bloco anterior são iguais
-     **Checa se o id do bloco é igual o id do bloco anterior +1
+    /* Checa a validade do bloco:
+     ** Checa se previous_hash e a hash do bloco anterior são iguais
+     ** Checa se o id do bloco é igual o id do bloco anterior +1
      ** Calcula a hash do current_block e checa se bate com a hash do cabeçalho do bloco
      */
 
@@ -130,17 +139,17 @@ impl Blockchain {
             Ok(String::from("valido"))
         }
     }
-    /*
-     **Função checa a integridade da blockchain.
+    /* Função checa a integridade da blockchain.
      ** Chama a função is_block_valid()
      ** Verifica se os blocos estão encadeados corretamente, checa o id e
      ** recalcula o hash do bloco;
-     */
+     * */
 
     pub fn is_chain_valid(&self) {
         /*
-         **checa a encadeação dos blocos, começando pelo primeiro bloco da cadeia, **após o genesis_block, id: 1
-         */
+         ** checa a encadeação dos blocos, começando pelo primeiro bloco da cadeia,
+         ** após o genesis_block, id: 1
+         * */
         for i in 1..self.chain.len() {
             let current_block = &self.chain[i];
             let previous_block = &self.chain[i - 1];
@@ -153,10 +162,10 @@ impl Blockchain {
             }
         }
     }
-    /* Possibilita a corrupção de uma dado transação em um dado bloco na blockchain */
+    // Possibilita a corrupção de uma dado transação em um dado bloco na blockchain
 
     pub fn corrupt_block(&mut self, block_id: usize, transaction_id: usize, new_value: f64) {
-        //checa a existência do bloco e da transação dentro do bloco
+        // Checa a existência do bloco e da transação dentro do bloco
 
         if block_id < self.chain.len() && transaction_id < self.chain[block_id].transactions.len() {
             self.chain[block_id].transactions[transaction_id].value = new_value;
