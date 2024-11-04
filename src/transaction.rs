@@ -1,18 +1,13 @@
-// //Tipo Transação
-// // {identificador, origem, destino, valor(f62)}
-// // Quando uma transação for criada, ela deve ser incluída em um bloco
-
-//Representa a chave pública;
-pub type Address = String;
+//Tipo Transação
 
 #[derive(Debug, Clone)]
 pub struct Transaction {
     // identificador da transação
     pub id: u64,
     // Origem da transação
-    pub from: Address,
+    pub from: String,
     // Destino da transação
-    pub to: Address,
+    pub to: String,
     // Valor da transação
     pub value: f64,
 }

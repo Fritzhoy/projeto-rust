@@ -50,7 +50,7 @@ impl Block {
         for tx in transactions {
             data.push_str(&format!("{}{}{}{}", tx.id, tx.from, tx.to, tx.value));
         }
-        //Utilizando marco sha256 para criar a hash da variável data
+        //Utilizando macro sha256 para criar a hash da variável data
         hasher.update(data);
 
         let result = format!("{:x}", hasher.finalize());
