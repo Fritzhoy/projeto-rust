@@ -1,13 +1,21 @@
-use std::{
-    hash,
-    time::{SystemTime, UNIX_EPOCH},
-};
+/* Mod Blockchain:
+** - Instância uma nova blockchain e cria o bloco genesis
+** - A cada 5 transações criadas um novo bloco é minerado
+** - Checa a validade da cadeia de blocos
+**    - Checa o id do bloco
+**    - Checa a hash anterior do bloco
+**    - Checa a hash criada a partir dos dados do bloco
+** - Função para simular a corrupção do valor de um transação em um dado
+** bloco
+* */
 
-// Criar
-//Função de validação que percorre toda a blockchain e verifica integridade de cada bloco e seu relacionamento com o bloco anterior
 use crate::{
     block::Block,
     transaction::{self, Transaction},
+};
+use std::{
+    hash,
+    time::{SystemTime, UNIX_EPOCH},
 };
 
 #[derive(Debug)]
