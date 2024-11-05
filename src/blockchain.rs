@@ -141,8 +141,6 @@ impl Blockchain {
     }
     /* Função checa a integridade da blockchain.
      ** Chama a função is_block_valid()
-     ** Verifica se os blocos estão encadeados corretamente, checa o id e
-     ** recalcula o hash do bloco;
      * */
 
     pub fn is_chain_valid(&self) {
