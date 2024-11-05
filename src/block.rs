@@ -3,8 +3,9 @@
 */
 
 use crate::Transaction;
+use chrono::TimeZone;
+use chrono_tz::Brazil::West;
 use sha2::{Digest, Sha256};
-use std::time::{SystemTime, UNIX_EPOCH};
 
 #[derive(Debug, Clone)]
 pub struct Block {
@@ -22,10 +23,9 @@ pub struct Block {
 
 impl Block {
     pub fn new(id: u64, hash_previous_block: &str, transactions: Vec<Transaction>) -> Self {
-        let timestamp = SystemTime::now()
-            .duration_since(UNIX_EPOCH)
-            .expect("Erro ao obter o timestamp")
-            .as_secs();
+        let dt = West.ymd(2024, 1, 1).and_hms(0, 0, 0);
+
+        let timestamp = dt.timestamp() as u64;
         let hash = Block::calculate_block_hash(id, timestamp, &hash_previous_block, &transactions);
 
         Block {
