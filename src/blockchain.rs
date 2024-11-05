@@ -1,7 +1,7 @@
 /* Mod Blockchain:
 ** - Instância uma nova blockchain e cria o bloco genesis
 **      - Bloco size: representa o tamanho de cada bloco
-**      - Pending_transaction: vetor que armazena de forma temporária 
+**      - Pending_transaction: vetor que armazena de forma temporária
 **          as transações, até a mineração de um novo bloco
 **      - transaction_counter: contador de transações na blockchain, utilizado
 **          no transaction id.
@@ -14,10 +14,7 @@
 ** bloco
 * */
 
-use crate::{
-    block::Block,
-    transaction::{Transaction},
-};
+use crate::{block::Block, transaction::Transaction};
 use std::{
     hash,
     time::{SystemTime, UNIX_EPOCH},
@@ -160,22 +157,24 @@ impl Blockchain {
             }
         }
     }
-    // Possibilita a corrupção de uma dado transação em um dado bloco na blockchain
+    // Possibilita a corrupção de uma dada transação em um dado bloco na blockchain
 
-    pub fn corrupt_block(&mut self, block_id: usize, transaction_id: usize, new_value: f64) {
+    pub fn corrupt_block(&mut self, block_id: usize, transaction_position: usize, new_value: f64) {
         // Checa a existência do bloco e da transação dentro do bloco
 
-        if block_id < self.chain.len() && transaction_id < self.chain[block_id].transactions.len() {
-            self.chain[block_id].transactions[transaction_id].value = new_value;
+        if block_id < self.chain.len()
+            && transaction_position < self.chain[block_id].transactions.len()
+        {
+            self.chain[block_id].transactions[transaction_position].value = new_value;
 
             println!(
                 "Bloco id {} corrompido! alterada transação:\n {:?} \n, novo valor: {}!",
-                block_id, self.chain[block_id].transactions[transaction_id], new_value
+                block_id, self.chain[block_id].transactions[transaction_position], new_value
             );
         } else {
             println!(
                 "Bloco id {} ou transação posição: {} não existe na cadeia de blocos",
-                block_id, transaction_id
+                block_id, transaction_position
             );
         }
 

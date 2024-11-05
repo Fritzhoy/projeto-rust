@@ -8,6 +8,8 @@ mod transaction;
 fn main() {
     let mut blockchain = Blockchain::new();
 
+    // Criação de 20 transações para testar função da blockchain
+
     for i in 1..=20 {
         blockchain.create_transaction(
             "0xEf8801eaf234ff82801821FFe2d780237F9967",
@@ -16,10 +18,12 @@ fn main() {
         );
     }
 
+    //checa se a cadeia de blocos é valida
     blockchain.is_chain_valid();
 
-    // blockchain.chain[3].hash = String::from("hello");
-    // println!("{:?}", blockchain.chain[3]);
+    //Altera a hash do bloco 3
+    blockchain.chain[3].hash = String::from("hello");
 
+    //Chama a função que permite corromper um bloco
     blockchain.corrupt_block(3, 2, 1000.0);
 }
