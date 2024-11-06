@@ -14,16 +14,13 @@ fn main() {
         blockchain.create_transaction(
             "0xEf8801eaf234ff82801821FFe2d780237F9967",
             "0x889b8abc7aA5D9Ad5f7f531d68453f9984Fd6962",
-            2.53722 * i as f64,
+            0.0 + i as f64,
         );
     }
 
     //checa se a cadeia de blocos é valida
     blockchain.is_chain_valid();
 
-    //Altera a hash do bloco 3
-    blockchain.chain[3].hash = String::from("hello");
-
     //Chama a função que permite corromper um bloco
-    blockchain.corrupt_block(3, 2, 1000.0);
+    blockchain.corrupt_block( 2, 6, 2.53722);
 }

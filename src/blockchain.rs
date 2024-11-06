@@ -14,8 +14,12 @@
 ** bloco
 * */
 
-use crate::{block::Block, transaction::Transaction};
+use crate::{
+    block::Block,
+    transaction::{self, Transaction},
+};
 use std::{
+    collections::HashMap,
     hash,
     time::{SystemTime, UNIX_EPOCH},
 };
@@ -25,7 +29,7 @@ pub struct Blockchain {
     //Block genesis representa o primeiro bloco da blockchain
     pub chain: Vec<Block>,
     block_size: usize,
-    pending_transactions: Vec<Transaction>,
+    pending_transactions: HashMap<u64, Transaction>,
     transaction_counter: u64,
 }
 
@@ -42,7 +46,7 @@ impl Blockchain {
                 .as_secs(),
             hash_previous_block: "0x000000000".to_string(),
             hash: "0x000000000".to_string(),
-            transactions: vec![],
+            transactions: HashMap::new(),
         };
         //variável mutável que representa o vetor da cadeia de blocos
         let mut chain = vec![];
@@ -57,7 +61,7 @@ impl Blockchain {
         let transaction_counter = 1;
 
         //Vetor que armazena temporariamente as transações
-        let pending_transactions = vec![];
+        let pending_transactions = HashMap::new();
 
         let blockchain = Blockchain {
             chain,
@@ -97,20 +101,23 @@ impl Blockchain {
     }
     // Função que instancia uma nova transação
 
-    pub fn create_transaction(&mut self, from: &str, to: &str, value: f64) {
+    pub fn create_transaction(&mut self, from: &str, to: &str, value: f64) -> u64 {
         let transaction = Transaction {
-            id: self.transaction_counter,
             from: from.to_string(),
             to: to.to_string(),
             value,
         };
+        let transaction_id = self.transaction_counter;
 
-        self.pending_transactions.push(transaction);
+        self.pending_transactions
+            .insert(transaction_id, transaction);
 
         if self.pending_transactions.len() == self.block_size {
             self.mine_block();
         }
         self.transaction_counter += 1;
+
+        transaction_id
     }
 
     /* Checa a validade do bloco:
@@ -159,23 +166,24 @@ impl Blockchain {
     }
     // Possibilita a corrupção de uma dada transação em um dado bloco na blockchain
 
-    pub fn corrupt_block(&mut self, block_id: usize, transaction_position: usize, new_value: f64) {
+    pub fn corrupt_block(&mut self, block_id: usize, transaction_id: u64, new_value: f64) {
         // Checa a existência do bloco e da transação dentro do bloco
 
-        if block_id < self.chain.len()
-            && transaction_position < self.chain[block_id].transactions.len()
-        {
-            self.chain[block_id].transactions[transaction_position].value = new_value;
-
-            println!(
-                "Bloco id {} corrompido! alterada transação:\n {:?} \n, novo valor: {}!",
-                block_id, self.chain[block_id].transactions[transaction_position], new_value
-            );
-        } else {
-            println!(
-                "Bloco id {} ou transação posição: {} não existe na cadeia de blocos",
-                block_id, transaction_position
-            );
+        if block_id < self.chain.len() && transaction_id <= self.transaction_counter {
+            if let Some(corrupt_transaction) =
+                self.chain[block_id].transactions.get_mut(&transaction_id)
+            {
+                corrupt_transaction.value = new_value;
+                println!(
+                    "Bloco id {} corrompido! Transação id: {} alterada! \nNovo valor: {:?}",
+                    block_id, transaction_id, corrupt_transaction
+                );
+            } else {
+                println!(
+                    "Bloco id {} ou transação posição: {} não existe na cadeia de blocos",
+                    block_id, transaction_id
+                );
+            }
         }
 
         self.is_chain_valid();
