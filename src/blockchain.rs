@@ -14,13 +14,9 @@
 ** bloco
 * */
 
-use crate::{
-    block::Block,
-    transaction::{self, Transaction},
-};
+use crate::{block::Block, transaction::Transaction};
 use std::{
     collections::HashMap,
-    hash,
     time::{SystemTime, UNIX_EPOCH},
 };
 

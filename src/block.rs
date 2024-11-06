@@ -2,10 +2,11 @@
 ** - Função para calculo da Hash do bloco com base nos dados contidos no bloco
 */
 use crate::Transaction;
-use chrono::TimeZone;
-use chrono_tz::Brazil::West;
 use sha2::{Digest, Sha256};
-use std::collections::HashMap;
+use std::{
+    collections::HashMap,
+    time::{SystemTime, UNIX_EPOCH},
+};
 
 #[derive(Debug, Clone)]
 pub struct Block {
@@ -27,9 +28,10 @@ impl Block {
         hash_previous_block: &str,
         transactions: HashMap<u64, Transaction>,
     ) -> Self {
-        let dt = West.ymd(2024, 1, 1).and_hms(0, 0, 0);
-
-        let timestamp = dt.timestamp() as u64;
+        let timestamp = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("Erro ao obter o timestamp")
+            .as_secs() as u64;
         let hash = Block::calculate_block_hash(id, timestamp, &hash_previous_block, &transactions);
 
         Block {
