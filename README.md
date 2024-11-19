@@ -19,8 +19,7 @@ Mod Block:
       - Irreversível: Não é possível deduzir a entrada a partir da hash final
       - Alteração não entrada resulta em uma hash completamente diferente
       - Resistente a colisões: Improvável que duas entradas diferentes gerem o mesmo hash.
-    ## Documentação
-
+        
 [Leia mais sobre SHA-256 no site do NIST](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf)
   
 
