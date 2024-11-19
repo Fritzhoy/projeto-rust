@@ -26,7 +26,6 @@ Mod lib.rs contém código para compilação usando WebAssembly, no entanto não
 
 ## Copilar programa
 - Certifique que o Rust esta instalado na sua maquina.
-- 
 ```
 
 Rode os testes para garantir que esta tudo funcionando:
@@ -37,7 +36,6 @@ cd wasm-runtime
 cargo test
 
 #Roda o main para executar funções blockchain
-
 cargo run
 
 ```
