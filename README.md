@@ -1,7 +1,28 @@
 # Projeto Construção de uma blockchain simples usando Rust;
 
-Projeto cria uma blockchain simples utilizando rust, criado 5 modulos diferentes, onde as funções principais encontra-se na
+Projeto cria uma blockchain simples utilizando rust, onde as funções principais encontra-se no
 mod blockchain
+Mod transaction: 
+- Definição da Struct transaction
+
+Mod Block:
+
+- Definição da Struct Block
+- Implementa funções: 
+   - Novo bloco, instancia uma novo bloco
+   - Calcula a Hash do bloco: Implementa a biblioteca sha2 do rust que implementa a função hash
+     Nesse projeto utilizamos a sha-256.
+     Como input essa função recebe os dados contidos no bloco: id, timestamp, previous hash, transactions
+     e como output gera uma hash de 256-bit correspondente a criptografia dos dados inputados.
+     A função hash é:
+      - deterministica, ou seja, para uma mesma data inputada sempre gera a mesma hash como output.
+      - Irreversível: Não é possível deduzir a entrada a partir da hash final
+      - Alteração não entrada resulta em uma hash completamente diferente
+      - Resistente a colisões: Improvável que duas entradas diferentes gerem o mesmo hash.
+    ## Documentação
+
+[Leia mais sobre SHA-256 no site do NIST](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf)
+  
 
  Mod Blockchain:
  - Instância uma nova blockchain e cria o bloco genesis
